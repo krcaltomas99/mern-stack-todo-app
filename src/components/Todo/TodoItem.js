@@ -10,7 +10,6 @@ export default function TodoItem(props) {
 			<td>
 				<Link to={'/edit/' + props.todo._id}>Edit</Link>
 			</td>
-			<td></td>
 		</tr>
 	)
 }
