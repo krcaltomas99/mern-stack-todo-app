@@ -1,4 +1,23 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and edited by Tomáš Krčál
+
+## Basic Description
+
+This is a basic Todo App made using MongoDB, Express, React and Node.
+
+## Requirements
+
+- MongoDB
+- Node
+
+## Scripts to start the project
+
+### `nodemon server`
+
+Use this script in /database folder
+
+### `mongod`
+
+Used to fire up the mongo process
 
 ## Available Scripts
 
