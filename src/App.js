@@ -20,7 +20,7 @@ export default class App extends Component {
 	}
 
 	getTodos = async () => {
-		let res = await axios.get('http://192.168.1.11:4000/todos');
+		let res = await axios.get('http://localhost:4000/todos');
 		let todos = res.data.reverse();
 
 		this.setState({
@@ -38,7 +38,7 @@ export default class App extends Component {
 			updatedAt: todo.updatedAt
 		}
 
-		axios.post('http://192.168.1.11:4000/todos/add', newTodo)
+		axios.post('http://localhost:4000/todos/add', newTodo)
 			.then(res => {
 				this.setState({
 					todos: [res.data.todo, ...this.state.todos]
@@ -48,7 +48,7 @@ export default class App extends Component {
 	}
 
 	updateTodo = async (todo) => {
-		axios.put('http://192.168.1.11:4000/todos/update/' + todo._id, todo)
+		axios.put('http://localhost:4000/todos/update/' + todo._id, todo)
 			.then(res => {
 				console.log(todo);
 				this.setState({
@@ -69,7 +69,7 @@ export default class App extends Component {
 	}
 
 	deleteTodo = async (id) => {
-		axios.delete('http://192.168.1.11:4000/todos/delete/' + id)
+		axios.delete('http://localhost:4000/todos/delete/' + id)
 			.then((res) => {
 				this.setState({
 					todos: [...this.state.todos.filter(todo => todo._id !== id)]
@@ -82,7 +82,7 @@ export default class App extends Component {
 		const updateTodo = {
 			todoCompleted: !todoCompleted,
 		}
-		axios.put('http://192.168.1.11:4000/todos/chngcmplt/' + id, updateTodo)
+		axios.put('http://localhost:4000/todos/chngcmplt/' + id, updateTodo)
 			.then((res) => {
 				console.log(res);
 				this.setState({

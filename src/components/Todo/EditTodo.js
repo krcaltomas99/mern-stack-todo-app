@@ -30,14 +30,17 @@ export default class EditTodo extends Component {
 	}
 
 	getTodo = async () => {
-		let res = await axios.get('http://192.168.1.11:4000/todos/' + this.props.match.params.id);
+		let res = await axios.get('http://localhost:4000/todos/' + this.props.match.params.id);
 		let data = res.data;
-		this.setState({
-			_id: data._id,
-			todoDescription: data.todoDescription,
-			todoResponsible: data.todoResponsible,
-			todoPriority: data.todoPriority,
-		});
+		if (data) {
+			this.setState({
+				_id: data._id,
+				todoDescription: data.todoDescription,
+				todoResponsible: data.todoResponsible,
+				todoPriority: data.todoPriority,
+			});
+		}
+
 	}
 
 	componentDidMount() {

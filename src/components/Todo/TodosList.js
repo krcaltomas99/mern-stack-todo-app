@@ -10,7 +10,18 @@ export default class TodosList extends Component {
 				<p>This is the list of apps in total</p>
 
 				{this.props.todos.length === 0 ? <div>Loading...</div> :
-					<div className='table table-striped'>
+					<table className='table table-striped'>
+						<thead>
+						<tr>
+							<th>Done</th>
+							<th>Description</th>
+							<th>Assigned to</th>
+							<th>Priority</th>
+							<th></th>
+							<th></th>
+						</tr>
+						</thead>
+						<tbody>
 						{
 							this.props.todos.map((e, i) => {
 								return <TodoItem
@@ -20,7 +31,8 @@ export default class TodosList extends Component {
 									todo={e}/>
 							})
 						}
-					</div>
+						</tbody>
+					</table>
 				}
 			</div>
 		)
