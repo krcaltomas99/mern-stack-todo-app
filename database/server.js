@@ -11,7 +11,7 @@ let Todo = require('./Todo.model');
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/todos', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017/todos', {useNewUrlParser: true});
 const connection = mongoose.connection;
 
 connection.once('open', function () {
@@ -39,7 +39,7 @@ todoRoutes.route('/add').post(function (req, res) {
 	let todo = new Todo(req.body);
 	todo.save()
 		.then(() => {
-			res.status(200).json('todo added')
+			res.status(200).json({'todo': todo})
 		})
 		.catch(() => {
 			res.status(400).send('Adding failed')
@@ -55,7 +55,6 @@ todoRoutes.route('/update/:id').put(function (req, res) {
 			todo.todoDescription = req.body.todoDescription;
 			todo.todoResponsible = req.body.todoResponsible;
 			todo.todoPriority = req.body.todoPriority;
-			todo.todoCompleted = req.body.todoCompleted;
 			todo.save()
 				.then(todo => {
 					res.status(200).json('Todo updated');
@@ -68,6 +67,24 @@ todoRoutes.route('/update/:id').put(function (req, res) {
 	});
 });
 
+todoRoutes.route('/chngcmplt/:id').put(function (req, res) {
+	Todo.findById(req.params.id, function (err, todo) {
+		if (!todo) {
+			res.status(400).send('failed');
+
+		} else {
+			todo.todoCompleted = req.body.todoCompleted;
+			todo.save()
+				.then(todo => {
+					res.status(200).json({'todo': todo});
+				})
+				.catch(err => {
+					res.status(400).send('Update failed');
+				})
+		}
+	})
+})
+
 todoRoutes.route('/delete/:id').delete(function (req, res) {
 	Todo.findById(req.params.id, function (err, todo) {
 		if (!todo) {
@@ -75,10 +92,10 @@ todoRoutes.route('/delete/:id').delete(function (req, res) {
 		} else {
 			todo.delete()
 				.then(todo => {
-					res.status(200).json('Todo updated');
+					res.status(200).json('Todo deleted');
 				})
 				.catch(err => {
-					res.status(400).send('Update failed');
+					res.status(400).send('Delete failed');
 				})
 		}
 	})

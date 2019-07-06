@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import TodosList from './TodosList';
 
 export default class CreateTodo extends Component {
@@ -25,18 +24,11 @@ export default class CreateTodo extends Component {
 			todoResponsible: this.state.todoResponsible,
 			todoPriority: this.state.todoPriority,
 			todoCompleted: false,
+			updatedAt: new Date(),
+			createdAt: new Date()
 		}
 
-		axios.post('http://localhost:4000/todos/add', newTodo)
-			.then(res => console.log(res))
-			.catch(err => console.log(err));
-
-		this.setState({
-			todoDescription: '',
-			todoResponsible: '',
-			todoPriority: '',
-			todoCompleted: false,
-		})
+		this.props.addTodo(newTodo);
 	}
 
 	render() {
@@ -100,7 +92,10 @@ export default class CreateTodo extends Component {
 							</form>
 						</div>
 						<div className="col-md-6">
-							<TodosList />
+							<TodosList
+								deleteTodo={this.props.deleteTodo}
+								makeMarked={this.props.makeMarked}
+								todos={this.props.todos} />
 						</div>
 					</div>
 				</div>

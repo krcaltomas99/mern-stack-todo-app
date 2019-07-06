@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 let Todo = new Schema({
 	todoDescription: {
 		type: String,
-
 	},
 	todoResponsible: {
 		type: String
@@ -14,6 +13,12 @@ let Todo = new Schema({
 	},
 	todoCompleted: {
 		type: Boolean
+	},
+	createdAt: {
+		type: Date
+	},
+	updatedAt: {
+		type: Date
 	}
 });
 

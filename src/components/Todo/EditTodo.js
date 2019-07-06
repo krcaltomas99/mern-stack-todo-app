@@ -3,12 +3,11 @@ import axios from 'axios';
 
 export default class EditTodo extends Component {
 	state = {
+		_id: '',
 		todoDescription: '',
 		todoResponsible: '',
 		todoPriority: '',
-		todoCompleted: false,
 	}
-
 
 	handleChange = (e) => {
 		this.setState({
@@ -16,28 +15,16 @@ export default class EditTodo extends Component {
 		})
 	}
 
-	handleChangeTodoCompleted = () => {
-		this.setState({
-			todoCompleted: !this.state.todoCompleted
-		})
-	}
-
 	onSubmit = (e) => {
 		e.preventDefault();
 		let todo = {
+			_id: this.state._id,
 			todoDescription: this.state.todoDescription,
 			todoResponsible: this.state.todoResponsible,
 			todoPriority: this.state.todoPriority,
-			todoCompleted: this.state.todoCompleted
 		}
 
-		axios.put('http://192.168.1.11:4000/todos/update/' + this.props.match.params.id, todo)
-			.then(res => {
-				console.log(res);
-			})
-			.catch(err => {
-				console.log(err);
-			});
+		this.props.updateTodo(todo);
 
 		this.props.history.push('/');
 	}
@@ -46,10 +33,10 @@ export default class EditTodo extends Component {
 		let res = await axios.get('http://192.168.1.11:4000/todos/' + this.props.match.params.id);
 		let data = res.data;
 		this.setState({
+			_id: data._id,
 			todoDescription: data.todoDescription,
 			todoResponsible: data.todoResponsible,
 			todoPriority: data.todoPriority,
-			todoCompleted: data.todoCompleted
 		});
 	}
 
@@ -59,7 +46,7 @@ export default class EditTodo extends Component {
 
 	render() {
 		return (
-			<div>
+			<div style={{maxWidth: '420px'}} className="mx-auto">
 				<form onSubmit={this.onSubmit}>
 					<div className="form-group">
 						<label htmlFor="desc">Description</label>
@@ -106,19 +93,6 @@ export default class EditTodo extends Component {
 							/>
 							<label htmlFor="priorityHigh" className='form-check-label'>High priority</label>
 						</div>
-					</div>
-
-					<div className="form-check">
-						<input type="checkbox"
-						       className='form-check-input'
-						       id='todoCompleted'
-						       name='todoCompleted'
-						       onChange={this.handleChangeTodoCompleted}
-						       checked={this.state.todoCompleted}
-						       value={this.state.todoCompleted}
-						/>
-
-						<label htmlFor="todoCompleted" className='form-check-label'>Completed</label>
 					</div>
 
 					<div className="form-group">
